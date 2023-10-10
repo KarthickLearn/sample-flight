@@ -8,6 +8,18 @@ public class FlightSaveRequest {
     private Integer duration;
 
 
+
+
+    public FlightSaveRequest(String flightNumber, String origin, String destination, Integer duration) {
+        this.flightNumber = flightNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.duration = duration;
+    }
+    public FlightSaveRequest() {
+
+    }
+
     public String getFlightNumber() {
         return flightNumber;
     }

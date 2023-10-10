@@ -17,8 +17,11 @@ public class FlightService {
     @Autowired
     private FlightRepo flightRepo;
 
-    
-    
+    public FlightService(FlightRepo flightRepo) {
+        this.flightRepo = flightRepo;
+    }
+
+
     //Save Flight info to database
     public String saveFlight(FlightSaveRequest flightSaveRequest) {
 
