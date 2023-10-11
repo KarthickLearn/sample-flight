@@ -1,54 +1,41 @@
 package com.airlines.sample.Sample.Airlines;
 
-import com.airlines.sample.Sample.Airlines.Expection.FlightNumberNotFoundException;
-import com.airlines.sample.Sample.Airlines.dto.FlightResponse;
-import com.airlines.sample.Sample.Airlines.dto.FlightSaveRequest;
-import com.airlines.sample.Sample.Airlines.flightentity.Flight;
-import com.airlines.sample.Sample.Airlines.flightrepo.FlightRepo;
-import com.airlines.sample.Sample.Airlines.service.FlightService;
+import com.sample.airlines.customexpection.FlightNumberNotFoundException;
+import com.sample.airlines.dto.FlightResponse;
+import com.sample.airlines.dto.FlightSaveRequest;
+import com.sample.airlines.flightentity.Flight;
+import com.sample.airlines.flightrepo.FlightRepo;
+import com.sample.airlines.service.FlightService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 @ExtendWith(MockitoExtension.class)
-public class FlightServiceTest {
+ class FlightServiceTest {
 
+    FlightService flightService;
     @Mock
     private FlightRepo flightRepo;
 
-
-    FlightService flightService;
-
-
     @BeforeEach
-    public void setup() {
+     void setup() {
         flightService = new FlightService(flightRepo);
     }
 
 
-
-
-
     @Test
     @DisplayName("save flight detail to database")
-    public void saveFlightTest(){
+     void saveFlightTest(){
 
         FlightSaveRequest flightSaveRequest =
                 new FlightSaveRequest("A1","TV","CH",30);
@@ -62,10 +49,9 @@ public class FlightServiceTest {
     }
 
 
-
     @Test
     @DisplayName("Get flight information based on flight-number")
-    public void getFlight() throws Throwable {
+     void getFlight() throws Throwable {
         Flight flight = new Flight("A1","TV","CH",30);
         Mockito.when(flightRepo.findByflightNumber("A1"))
                 .thenReturn(Optional.of(flight));
@@ -76,16 +62,14 @@ public class FlightServiceTest {
     }
     @Test
     @DisplayName(" flight information not found based on flight-number")
-    public void notFoundFlightInfo() throws Throwable {
-       /* Flight flight = new Flight("A1","TV","CH",30);
-        Mockito.when(flightRepo.findByflightNumber("A1").isPresent())
-                .thenReturn(null);*/
+     void notFoundFlightInfo() throws Throwable {
+
 
         FlightNumberNotFoundException thrown = Assertions.assertThrows(FlightNumberNotFoundException.class, () -> {
             flightRepo.findByflightNumber("A1");
         }, "The Given Flight Number not present");
 
-        Assertions.assertEquals("he Given Flight Number not present", thrown.getMessage());
+        Assertions.assertEquals("The Given Flight Number not present", thrown.getMessage());
     }
 
 
@@ -97,7 +81,7 @@ public class FlightServiceTest {
 
     @Test
     @DisplayName("To get all fight details")
-    public void getAllFlightTest(){
+    void getAllFlightTest(){
         Flight flight_1 = new Flight("A1","TV","CH",30);
         Flight flight_2 = new Flight("B1","TV","CH",10);
 
@@ -111,7 +95,7 @@ public class FlightServiceTest {
 
     @Test
     @DisplayName("To get list of flight based on origin and destination")
-    public void getFlightBasedOriginAndDestination(){
+    void getFlightBasedOriginAndDestination(){
         Flight flight_1 = new Flight("A1","TV","CH",30);
         Flight flight_2 = new Flight("B1","BN","DL",10);
         Flight flight_3 = new Flight("C1","TV","CH",20);
@@ -132,7 +116,7 @@ public class FlightServiceTest {
 
 
     @Test
-    public void mapToFlightResponseTest(){
+     void mapToFlightResponseTest(){
 
         Flight flight_1 = new Flight("A1","TV","CH",30);
       FlightResponse flightResponse = flightService.mapToFlightResponse(flight_1);

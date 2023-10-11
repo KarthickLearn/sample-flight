@@ -1,9 +1,9 @@
 package com.airlines.sample.Sample.Airlines;
 
-import com.airlines.sample.Sample.Airlines.dto.FlightResponse;
-import com.airlines.sample.Sample.Airlines.flightentity.Flight;
-import com.airlines.sample.Sample.Airlines.service.FlightService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sample.airlines.controller.FlightController;
+import com.sample.airlines.dto.FlightResponse;
+import com.sample.airlines.flightentity.Flight;
+import com.sample.airlines.service.FlightService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = FlightController.class)
 @AutoConfigureMockMvc
 class SampleAirlinesApplicationTests {
 
@@ -42,26 +42,26 @@ class SampleAirlinesApplicationTests {
 
 	@Test
 	@DisplayName("verify save flight to database")
-	public void saveFlightTest() throws Exception {
+	 void saveFlightTest() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 						.post("/api/saveFlight")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(flight_1)))
-				.andExpect(status().isAccepted());
+				.andExpect(status().isCreated());
 
 
 	}
 
 	@Test
 	@DisplayName("verify getAll flights from database")
-	public void getAllFlights() throws Exception {
+	 void getAllFlights() throws Exception {
 
 		FlightResponse flightResponse_1 = new FlightResponse(null,"A1", "CH","KL",30 );
 		FlightResponse flightResponse_2 = new FlightResponse(null,"B1", "TV","DL",50);
 		Mockito.when(flightService.getAllFlight()).thenReturn(Arrays.asList(flightResponse_1,flightResponse_2));
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/api/getallflightsdetails")
+				.get("/api/getAllFlightsDetails")
 
 
 		).andExpect(MockMvcResultMatchers.status().isOk())
